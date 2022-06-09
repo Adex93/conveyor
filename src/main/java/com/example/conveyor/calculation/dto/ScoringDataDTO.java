@@ -1,5 +1,7 @@
-package com.example.conveyor.calculation;
+package com.example.conveyor.calculation.dto;
 
+import com.example.conveyor.calculation.enums.Gender;
+import com.example.conveyor.calculation.enums.MaritalStatus;
 import com.example.conveyor.calculation.myValidations.MyBirthdateValid;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -18,7 +20,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-
 
 @Getter
 @Setter
@@ -56,20 +57,24 @@ public class ScoringDataDTO {
     @Schema(description = "Пол (MALE или FEMALE)", example = "MALE")
     Gender gender;
 
+    @NotNull
     @Past
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Schema(description = "Дата рождения", example = "1993-07-28")
     @MyBirthdateValid
     LocalDate birthdate;
 
+    @NotBlank
     @Size(min = 4, max = 4, message = "PassportSeries is uncorrected")
     @Schema(description = "Серия паспорта", example = "1234")
     String passportSeries;
 
+    @NotBlank
     @Size(min = 6, max = 6, message = "PassportNumber is uncorrected")
     @Schema(description = "Номер паспорта", example = "123456")
     String passportNumber;
 
+    @NotNull
     @PastOrPresent(message = "PassportIssueDate is uncorrected")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Schema(description = "Дата выдачи паспорта", example = "2015-05-15")
@@ -106,14 +111,6 @@ public class ScoringDataDTO {
     @Schema(description = "Зарплатный ли клиент (true или false)", example = "true")
     Boolean isSalaryClient;
 
-    public enum Gender {
-        MALE,
-        FEMALE
-    }
 
-    public enum MaritalStatus {
-        SINGLE,
-        MARRIED
-    }
 
 }

@@ -1,13 +1,21 @@
-package com.example.conveyor.calculation;
+package com.example.conveyor.calculation.service;
 
-import com.example.conveyor.offers.CalculatorOffers;
+import com.example.conveyor.calculation.dto.CreditDTO;
+import com.example.conveyor.calculation.dto.EmploymentDTO;
+import com.example.conveyor.calculation.dto.PaymentScheduleElement;
+import com.example.conveyor.calculation.dto.ScoringDataDTO;
+import com.example.conveyor.calculation.enums.EmploymentStatus;
+import com.example.conveyor.calculation.enums.Gender;
+import com.example.conveyor.calculation.enums.MaritalStatus;
+import com.example.conveyor.calculation.enums.Position;
+import com.example.conveyor.offers.service.CalculatorOffers;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-
 
 import java.math.BigDecimal;
 import java.net.BindException;
@@ -20,18 +28,16 @@ import java.util.List;
 @Getter
 @Setter
 @Component
-@Scope("prototype")
 public class ScoringService {
 
     @Value("${custom.calculating.baseRate}")
     BigDecimal rate;
-
-    public CreditDTO scoring(ScoringDataDTO scoringDataDTO) throws BindException {
+    public ResponseEntity<CreditDTO> scoring(ScoringDataDTO scoringDataDTO) throws BindException {
         CreditDTO creditDTO = new CreditDTO();
         EmploymentDTO employmentDTO = scoringDataDTO.getEmployment();
-        int age = Period.between(scoringDataDTO.birthdate, LocalDate.now()).getYears();
+        int age = Period.between(scoringDataDTO.getBirthdate(), LocalDate.now()).getYears();
 
-        if (!employmentDTO.getEmploymentStatus().equals(EmploymentDTO.EmploymentStatus.UNEMPLOYED)
+        if (!employmentDTO.getEmploymentStatus().equals(EmploymentStatus.UNEMPLOYED)
                 && (employmentDTO.getSalary().multiply(BigDecimal.valueOf(30))).compareTo(scoringDataDTO.getAmount()) >= 0
                 && employmentDTO.getWorkExperienceTotal().compareTo(12) >= 0
                 && employmentDTO.getWorkExperienceCurrent().compareTo(3) >= 0
@@ -40,28 +46,28 @@ public class ScoringService {
             creditDTO.setRate(rate);
             creditDTO.setTerm(scoringDataDTO.getTerm());
             creditDTO.setAmount(scoringDataDTO.getAmount());
-            creditDTO.setIsInsuranceEnabled(scoringDataDTO.isInsuranceEnabled);
-            creditDTO.setIsSalaryClient(scoringDataDTO.isSalaryClient);
-            if (employmentDTO.getEmploymentStatus().equals(EmploymentDTO.EmploymentStatus.SELF_EMPLOYED)) {
+            creditDTO.setIsInsuranceEnabled(scoringDataDTO.getIsInsuranceEnabled());
+            creditDTO.setIsSalaryClient(scoringDataDTO.getIsSalaryClient());
+            if (employmentDTO.getEmploymentStatus().equals(EmploymentStatus.SELF_EMPLOYED)) {
                 creditDTO.setRate(creditDTO.getRate().add(BigDecimal.ONE));
-            } else if (employmentDTO.getEmploymentStatus().equals(EmploymentDTO.EmploymentStatus.BUSINESSMAN)) {
+            } else if (employmentDTO.getEmploymentStatus().equals(EmploymentStatus.BUSINESSMAN)) {
                 creditDTO.setRate(creditDTO.getRate().add(BigDecimal.valueOf(3)));
             }
-            if (employmentDTO.getPosition().equals(EmploymentDTO.Position.MID_MANAGER)) {
+            if (employmentDTO.getPosition().equals(Position.MID_MANAGER)) {
                 creditDTO.setRate(creditDTO.getRate().subtract(BigDecimal.ONE));
-            } else if (employmentDTO.getPosition().equals(EmploymentDTO.Position.TOP_MANAGER)) {
+            } else if (employmentDTO.getPosition().equals(Position.TOP_MANAGER)) {
                 creditDTO.setRate(creditDTO.getRate().subtract(BigDecimal.valueOf(2)));
             }
-            if (scoringDataDTO.getMaritalStatus().equals(ScoringDataDTO.MaritalStatus.MARRIED)) {
+            if (scoringDataDTO.getMaritalStatus().equals(MaritalStatus.MARRIED)) {
                 creditDTO.setRate(creditDTO.getRate().subtract(BigDecimal.ONE));
-            } else if (scoringDataDTO.getMaritalStatus().equals(ScoringDataDTO.MaritalStatus.SINGLE)) {
+            } else if (scoringDataDTO.getMaritalStatus().equals(MaritalStatus.SINGLE)) {
                 creditDTO.setRate(creditDTO.getRate().add(BigDecimal.ONE));
             }
             if (scoringDataDTO.getDependentAmount() > 1) {
                 creditDTO.setRate(creditDTO.getRate().add(BigDecimal.ONE));
             }
-            if ((scoringDataDTO.getGender().equals(ScoringDataDTO.Gender.MALE) && age > 30 && age < 55)
-                    || (scoringDataDTO.getGender().equals(ScoringDataDTO.Gender.FEMALE) && age > 35 && age < 60)) {
+            if ((scoringDataDTO.getGender().equals(Gender.MALE) && age > 30 && age < 55)
+                    || (scoringDataDTO.getGender().equals(Gender.FEMALE) && age > 35 && age < 60)) {
                 creditDTO.setRate(creditDTO.getRate().subtract(BigDecimal.ONE));
             }
             if (creditDTO.getIsInsuranceEnabled() && creditDTO.getIsSalaryClient()) {
@@ -86,7 +92,7 @@ public class ScoringService {
             creditDTO.setPaymentSchedule(createListPayment(creditDTO));
 
             log.info("Скоринг, полный расчет параметров кредиа,формирование CreditDTO успешно произведены: " + creditDTO);
-            return creditDTO;
+            return new ResponseEntity<>(creditDTO, HttpStatus.OK);
         } else {
 
             log.error("Скорринг не пройден");

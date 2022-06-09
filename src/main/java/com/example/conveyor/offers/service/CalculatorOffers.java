@@ -1,4 +1,4 @@
-package com.example.conveyor.offers;
+package com.example.conveyor.offers.service;
 
 import lombok.extern.slf4j.Slf4j;
 

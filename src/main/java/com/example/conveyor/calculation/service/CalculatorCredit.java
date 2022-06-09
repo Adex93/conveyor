@@ -1,4 +1,4 @@
-package com.example.conveyor.calculation;
+package com.example.conveyor.calculation.service;
 
 import lombok.Getter;
 import lombok.Setter;

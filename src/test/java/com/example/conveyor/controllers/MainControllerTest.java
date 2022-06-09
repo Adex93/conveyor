@@ -1,10 +1,14 @@
 package com.example.conveyor.controllers;
 
-import com.example.conveyor.calculation.EmploymentDTO;
-import com.example.conveyor.calculation.ScoringDataDTO;
-import com.example.conveyor.calculation.ScoringService;
-import com.example.conveyor.offers.LoanApplicationRequestDTO;
-import com.example.conveyor.offers.OffersService;
+import com.example.conveyor.calculation.dto.EmploymentDTO;
+import com.example.conveyor.calculation.dto.ScoringDataDTO;
+import com.example.conveyor.calculation.enums.EmploymentStatus;
+import com.example.conveyor.calculation.enums.Gender;
+import com.example.conveyor.calculation.enums.MaritalStatus;
+import com.example.conveyor.calculation.enums.Position;
+import com.example.conveyor.calculation.service.ScoringService;
+import com.example.conveyor.offers.dto.LoanApplicationRequestDTO;
+import com.example.conveyor.offers.service.OffersService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.Test;
@@ -40,6 +44,11 @@ class MainControllerTest {
     private ObjectMapper objectMapper;
     @Autowired
     MockMvc mockMvc;
+    @Autowired
+    OffersService offersService;
+    @Autowired
+    ScoringService scoringService;
+
 
 
     @Test
@@ -59,8 +68,8 @@ class MainControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/conveyor/add-offer")
                         .content(objectMapper.writeValueAsString(loanApplicationRequestDTO)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-        assertNotNull(context.getBean(OffersService.class).makeListLoanOfferDTO(loanApplicationRequestDTO));
-        assertEquals(4, context.getBean(OffersService.class).makeListLoanOfferDTO(loanApplicationRequestDTO).size());
+        assertNotNull(offersService.makeListLoanOfferDTO(loanApplicationRequestDTO));
+        assertEquals(4, offersService.makeListLoanOfferDTO(loanApplicationRequestDTO).getBody().size());
 
     }
 
@@ -76,21 +85,21 @@ class MainControllerTest {
         scoringDataDTO.setFirstName("Aleksandr");
         scoringDataDTO.setLastName("Dmitriev");
         scoringDataDTO.setMiddleName("Sergeevich");
-        scoringDataDTO.setGender(ScoringDataDTO.Gender.MALE);
+        scoringDataDTO.setGender(Gender.MALE);
         scoringDataDTO.setBirthdate(LocalDate.of(1993, 7, 28));
         scoringDataDTO.setPassportSeries("1234");
         scoringDataDTO.setPassportNumber("123456");
         scoringDataDTO.setPassportIssueDate(LocalDate.of(2015, 5, 15));
         scoringDataDTO.setPassportIssueBranch("360-018");
-        scoringDataDTO.setMaritalStatus(ScoringDataDTO.MaritalStatus.SINGLE);
+        scoringDataDTO.setMaritalStatus(MaritalStatus.SINGLE);
         scoringDataDTO.setDependentAmount(0);
         scoringDataDTO.setAccount("40702810400000123456");
         scoringDataDTO.setIsInsuranceEnabled(true);
         scoringDataDTO.setIsSalaryClient(true);
-        employmentDTO.setEmploymentStatus(EmploymentDTO.EmploymentStatus.EMPLOYED);
+        employmentDTO.setEmploymentStatus(EmploymentStatus.EMPLOYED);
         employmentDTO.setEmployerINN("770712083893");
         employmentDTO.setSalary(BigDecimal.valueOf(100000));
-        employmentDTO.setPosition(EmploymentDTO.Position.MID_MANAGER);
+        employmentDTO.setPosition(Position.MID_MANAGER);
         employmentDTO.setWorkExperienceTotal(72);
         employmentDTO.setWorkExperienceCurrent(24);
 
@@ -99,6 +108,6 @@ class MainControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/conveyor/calculating")
                         .content(objectMapper.writeValueAsString(scoringDataDTO)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-        assertNotNull(context.getBean(ScoringService.class).scoring(scoringDataDTO));
+        assertNotNull(scoringService.scoring(scoringDataDTO));
     }
 }

@@ -1,4 +1,4 @@
-package com.example.conveyor.offers;
+package com.example.conveyor.offers.dto;
 
 import com.example.conveyor.calculation.myValidations.MyBirthdateValid;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -34,6 +34,7 @@ public class LoanApplicationRequestDTO {
     @Min(value = 10000, message = "Amount should be greater than 10000")
     @Schema(description = "Запрашиваемая сумма денежных средств", example = "2000000")
     BigDecimal amount;
+
 
     @Pattern(regexp = "^[A-Za-z]+$")
     @Size(min = 2, max = 30, message = "FirstName should be between 2 and 30 characters")

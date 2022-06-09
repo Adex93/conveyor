@@ -1,6 +1,5 @@
-package com.example.conveyor.calculation;
+package com.example.conveyor.calculation.dto;
 
-import io.swagger.v3.oas.annotations.Hidden;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,7 +9,6 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@Hidden
 @ToString
 public class PaymentScheduleElement {
     Integer number;

@@ -1,5 +1,6 @@
 package com.example.conveyor.calculation;
 
+import com.example.conveyor.calculation.service.CalculatorCredit;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

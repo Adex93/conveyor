@@ -1,5 +1,7 @@
-package com.example.conveyor.calculation;
+package com.example.conveyor.calculation.dto;
 
+import com.example.conveyor.calculation.enums.EmploymentStatus;
+import com.example.conveyor.calculation.enums.Position;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,18 +43,7 @@ public class EmploymentDTO {
     Integer workExperienceCurrent;
 
 
-    public enum EmploymentStatus {
-        EMPLOYED,
-        SELF_EMPLOYED,
-        BUSINESSMAN,
-        UNEMPLOYED,
-    }
 
-    public enum Position {
-        WORKER,
-        MID_MANAGER,
-        TOP_MANAGER,
-    }
 }
 
 

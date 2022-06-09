@@ -1,5 +1,8 @@
 package com.example.conveyor.offers;
 
+import com.example.conveyor.offers.dto.LoanApplicationRequestDTO;
+import com.example.conveyor.offers.dto.LoanOfferDTO;
+import com.example.conveyor.offers.service.OffersService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -56,8 +59,8 @@ class OffersServiceTest {
         assertEquals(BigDecimal.valueOf(20), loanOfferDTO.getRate());
         assertEquals(24, loanOfferDTO.getTerm());
         assertEquals(BigDecimal.valueOf(101791.61), loanOfferDTO.getMonthlyPayment());
-        assertFalse(loanOfferDTO.isInsuranceEnabled);
-        assertFalse(loanOfferDTO.isSalaryClient);
+        assertFalse(loanOfferDTO.getIsInsuranceEnabled());
+        assertFalse(loanOfferDTO.getIsSalaryClient());
     }
 
     @Test
@@ -75,8 +78,8 @@ class OffersServiceTest {
         assertEquals(BigDecimal.valueOf(19), loanOfferDTO.getRate());
         assertEquals(24, loanOfferDTO.getTerm());
         assertEquals(BigDecimal.valueOf(100817.23), loanOfferDTO.getMonthlyPayment());
-        assertFalse(loanOfferDTO.isInsuranceEnabled);
-        assertTrue(loanOfferDTO.isSalaryClient);
+        assertFalse(loanOfferDTO.getIsInsuranceEnabled());
+        assertTrue(loanOfferDTO.getIsSalaryClient());
     }
 
     @Test
@@ -94,8 +97,8 @@ class OffersServiceTest {
         assertEquals(BigDecimal.valueOf(17), loanOfferDTO.getRate());
         assertEquals(24, loanOfferDTO.getTerm());
         assertEquals(BigDecimal.valueOf(101851.06), loanOfferDTO.getMonthlyPayment());
-        assertTrue(loanOfferDTO.isInsuranceEnabled);
-        assertFalse(loanOfferDTO.isSalaryClient);
+        assertTrue(loanOfferDTO.getIsInsuranceEnabled());
+        assertFalse(loanOfferDTO.getIsSalaryClient());
     }
 
     @Test
@@ -115,8 +118,8 @@ class OffersServiceTest {
         assertEquals(24, loanOfferDTO.getTerm());
         assertEquals(BigDecimal.valueOf(100864.01), loanOfferDTO.getMonthlyPayment());
         assertEquals(BigDecimal.valueOf(16), loanOfferDTO.getRate());
-        assertTrue(loanOfferDTO.isInsuranceEnabled);
-        assertTrue(loanOfferDTO.isSalaryClient);
+        assertTrue(loanOfferDTO.getIsInsuranceEnabled());
+        assertTrue(loanOfferDTO.getIsSalaryClient());
     }
 
     @Test

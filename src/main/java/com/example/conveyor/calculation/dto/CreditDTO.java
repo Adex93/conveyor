@@ -1,4 +1,4 @@
-package com.example.conveyor.calculation;
+package com.example.conveyor.calculation.dto;
 
 import lombok.Getter;
 import lombok.Setter;

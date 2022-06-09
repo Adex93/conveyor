@@ -1,12 +1,14 @@
-package com.example.conveyor.offers;
+package com.example.conveyor.offers.service;
 
-import io.swagger.v3.oas.annotations.Hidden;
+import com.example.conveyor.offers.dto.LoanApplicationRequestDTO;
+import com.example.conveyor.offers.dto.LoanOfferDTO;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -14,28 +16,27 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-@Hidden
 @Slf4j
 @Getter
 @Setter
 @RequiredArgsConstructor
 @Component
-@Scope("prototype")
 public class OffersService {
 
     public static Long idLoadOfferDTO = 0L;
-    List<LoanOfferDTO> list = new ArrayList<>();
+
     @Value("${custom.calculating.baseRate}")
     BigDecimal rate;
 
-    public List<LoanOfferDTO> makeListLoanOfferDTO(LoanApplicationRequestDTO loanApplicationRequestDTO) {
-
-        this.list.add(withoutAllOffer(new LoanOfferDTO(loanApplicationRequestDTO)));
-        this.list.add(withSalaryOffer(new LoanOfferDTO(loanApplicationRequestDTO)));
-        this.list.add(withInsuranceOffer(new LoanOfferDTO(loanApplicationRequestDTO)));
-        this.list.add(withAllOffer(new LoanOfferDTO(loanApplicationRequestDTO)));
+    public ResponseEntity<List<LoanOfferDTO>> makeListLoanOfferDTO(LoanApplicationRequestDTO loanApplicationRequestDTO) {
+        ++OffersService.idLoadOfferDTO;
+        List<LoanOfferDTO> list = new ArrayList<>();
+        list.add(withoutAllOffer(new LoanOfferDTO(loanApplicationRequestDTO)));
+        list.add(withSalaryOffer(new LoanOfferDTO(loanApplicationRequestDTO)));
+        list.add(withInsuranceOffer(new LoanOfferDTO(loanApplicationRequestDTO)));
+        list.add(withAllOffer(new LoanOfferDTO(loanApplicationRequestDTO)));
         log.info("Список с экземплярами LoanOfferDTO успешно создан: " + list);
-        return list;
+        return new ResponseEntity<>(list,HttpStatus.OK);
     }
 
     public LoanOfferDTO withoutAllOffer(LoanOfferDTO loanOfferDTO) {  //

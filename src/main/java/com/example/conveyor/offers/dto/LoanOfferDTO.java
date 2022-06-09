@@ -1,5 +1,6 @@
-package com.example.conveyor.offers;
+package com.example.conveyor.offers.dto;
 
+import com.example.conveyor.offers.service.OffersService;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
