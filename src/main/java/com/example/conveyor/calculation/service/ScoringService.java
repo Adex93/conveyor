@@ -13,8 +13,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -32,7 +30,7 @@ public class ScoringService {
 
     @Value("${custom.calculating.baseRate}")
     BigDecimal rate;
-    public ResponseEntity<CreditDTO> scoring(ScoringDataDTO scoringDataDTO) throws BindException {
+    public CreditDTO scoring(ScoringDataDTO scoringDataDTO) throws BindException {
         CreditDTO creditDTO = new CreditDTO();
         EmploymentDTO employmentDTO = scoringDataDTO.getEmployment();
         int age = Period.between(scoringDataDTO.getBirthdate(), LocalDate.now()).getYears();
@@ -92,7 +90,7 @@ public class ScoringService {
             creditDTO.setPaymentSchedule(createListPayment(creditDTO));
 
             log.info("Скоринг, полный расчет параметров кредиа,формирование CreditDTO успешно произведены: " + creditDTO);
-            return new ResponseEntity<>(creditDTO, HttpStatus.OK);
+            return creditDTO;
         } else {
 
             log.error("Скорринг не пройден");

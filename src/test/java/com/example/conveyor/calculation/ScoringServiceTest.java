@@ -9,7 +9,6 @@ import com.example.conveyor.calculation.enums.Gender;
 import com.example.conveyor.calculation.enums.MaritalStatus;
 import com.example.conveyor.calculation.enums.Position;
 import com.example.conveyor.calculation.service.ScoringService;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -49,7 +48,7 @@ class ScoringServiceTest {
         employmentDTO.setWorkExperienceCurrent(24);
         scoringDataDTO.setEmployment(employmentDTO);
 
-        CreditDTO creditDTO = scoringService.scoring(scoringDataDTO).getBody();
+        CreditDTO creditDTO = scoringService.scoring(scoringDataDTO);
 
         assertEquals(BigDecimal.valueOf(16), creditDTO.getRate());
     }

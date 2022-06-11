@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -28,7 +26,7 @@ public class OffersService {
     @Value("${custom.calculating.baseRate}")
     BigDecimal rate;
 
-    public ResponseEntity<List<LoanOfferDTO>> makeListLoanOfferDTO(LoanApplicationRequestDTO loanApplicationRequestDTO) {
+    public List<LoanOfferDTO> makeListLoanOfferDTO(LoanApplicationRequestDTO loanApplicationRequestDTO) {
         ++OffersService.idLoadOfferDTO;
         List<LoanOfferDTO> list = new ArrayList<>();
         list.add(withoutAllOffer(new LoanOfferDTO(loanApplicationRequestDTO)));
@@ -36,7 +34,7 @@ public class OffersService {
         list.add(withInsuranceOffer(new LoanOfferDTO(loanApplicationRequestDTO)));
         list.add(withAllOffer(new LoanOfferDTO(loanApplicationRequestDTO)));
         log.info("Список с экземплярами LoanOfferDTO успешно создан: " + list);
-        return new ResponseEntity<>(list,HttpStatus.OK);
+        return list;
     }
 
     public LoanOfferDTO withoutAllOffer(LoanOfferDTO loanOfferDTO) {  //

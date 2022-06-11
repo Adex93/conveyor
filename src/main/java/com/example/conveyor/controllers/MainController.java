@@ -8,6 +8,7 @@ import com.example.conveyor.offers.dto.LoanOfferDTO;
 import com.example.conveyor.offers.service.OffersService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,23 +36,24 @@ public class MainController {
     }
 
     @Tag(name = "The offers API", description = "Create LoanApplicationRequestDTO and get LoanOfferDTO")
-    @PostMapping("/conveyor/add-offer")
+    @PostMapping("/conveyor/offers")
     public ResponseEntity<List<LoanOfferDTO>> addNewOffer(@Valid @RequestBody LoanApplicationRequestDTO loanApplicationRequestDTOBody) {
 
         log.info("Произведено создание экземпляра класса LoanApplicationRequestDTO со следующими входными данными: " + loanApplicationRequestDTOBody);
         log.info("Вызвана функция makeListLoanOfferDTO класса OffersService для формирования списка с кредитными предложениями LoanOffersDTO");
-        return offersService.makeListLoanOfferDTO(loanApplicationRequestDTOBody);
 
+        return new ResponseEntity<>(offersService.makeListLoanOfferDTO(loanApplicationRequestDTOBody), HttpStatus.OK);
     }
 
 
-    @PostMapping("/conveyor/calculating")
+    @PostMapping("/conveyor/calculation")
     @Tag(name = "The calculation API", description = "Create ScoringDataDTO and get CreditDTO")
     public ResponseEntity<CreditDTO> calculating(@Valid @RequestBody ScoringDataDTO scoringDataDTO) throws BindException {
 
         log.info("Произведено создание экземпляра класса ScoringDataDTO со следующими входными данными: " + scoringDataDTO);
         log.info("Вызвана функция scoring класса ScoringService для произведения скоринга, произведения полного расчета параметров кредита и формирования CreditDTO");
-        return scoringService.scoring(scoringDataDTO);
+
+        return new ResponseEntity<>(scoringService.scoring(scoringDataDTO), HttpStatus.OK);
     }
 
 

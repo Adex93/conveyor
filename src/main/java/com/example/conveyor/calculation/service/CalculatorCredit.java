@@ -15,7 +15,7 @@ public class CalculatorCredit {
 
         BigDecimal result;
         result = ((monthlyAmount.multiply(BigDecimal.valueOf(term))).divide(amount, 50, RoundingMode.HALF_UP).subtract(BigDecimal.ONE)).
-                divide(BigDecimal.valueOf(term / 12), 50, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
+                divide(BigDecimal.valueOf(term).divide(BigDecimal.valueOf(12),50, RoundingMode.HALF_UP), 50, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
 
         return result.setScale(3, RoundingMode.HALF_UP);
     }

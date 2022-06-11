@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -31,14 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class MainControllerTest {
-
-    final
-    ApplicationContext context;
-
-    public MainControllerTest(ApplicationContext context) {
-        this.context = context;
-    }
-
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -69,7 +60,7 @@ class MainControllerTest {
                         .content(objectMapper.writeValueAsString(loanApplicationRequestDTO)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
         assertNotNull(offersService.makeListLoanOfferDTO(loanApplicationRequestDTO));
-        assertEquals(4, offersService.makeListLoanOfferDTO(loanApplicationRequestDTO).getBody().size());
+        assertEquals(4, offersService.makeListLoanOfferDTO(loanApplicationRequestDTO).size());
 
     }
 
