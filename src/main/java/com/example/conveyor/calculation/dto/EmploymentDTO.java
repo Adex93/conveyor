@@ -31,7 +31,7 @@ public class EmploymentDTO {
     BigDecimal salary;
 
     @NotNull
-    @Schema(description = "Должность (WORKER или MID_MANAGER или TOP_MANAGER)", example = "MID_MANAGER")
+    @Schema(description = "Должность (WORKER или MID_MANAGER, TOP_MANAGER WORKER или OWNER)", example = "MID_MANAGER")
     Position position;
 
     @NotNull

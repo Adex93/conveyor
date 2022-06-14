@@ -54,7 +54,7 @@ public class ScoringDataDTO {
     String middleName;
 
     @NotNull
-    @Schema(description = "Пол (MALE или FEMALE)", example = "MALE")
+    @Schema(description = "Пол (MALE, FEMALE или NON_BINARY)", example = "MALE")
     Gender gender;
 
     @NotNull
@@ -86,7 +86,7 @@ public class ScoringDataDTO {
 
 
     @NotNull
-    @Schema(description = "Семейное положение(MARRIED или SINGLE)", example = "SINGLE")
+    @Schema(description = "Семейное положение (SINGLE, MARRIED, DIVORCED или WIDOW_WIDOWER)", example = "SINGLE")
     MaritalStatus maritalStatus;
 
     @NotNull
