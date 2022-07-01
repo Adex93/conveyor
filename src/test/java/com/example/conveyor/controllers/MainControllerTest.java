@@ -56,7 +56,7 @@ class MainControllerTest {
         loanApplicationRequestDTO.setPassportNumber("123456");
 
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/conveyor/add-offer")
+        mockMvc.perform(MockMvcRequestBuilders.post("/conveyor/offers")
                         .content(objectMapper.writeValueAsString(loanApplicationRequestDTO)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
         assertNotNull(offersService.makeListLoanOfferDTO(loanApplicationRequestDTO));
@@ -94,9 +94,8 @@ class MainControllerTest {
         employmentDTO.setWorkExperienceTotal(72);
         employmentDTO.setWorkExperienceCurrent(24);
 
-
         scoringDataDTO.setEmployment(employmentDTO);
-        mockMvc.perform(MockMvcRequestBuilders.post("/conveyor/calculating")
+        mockMvc.perform(MockMvcRequestBuilders.post("/conveyor/calculation")
                         .content(objectMapper.writeValueAsString(scoringDataDTO)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
         assertNotNull(scoringService.scoring(scoringDataDTO));
