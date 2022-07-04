@@ -17,14 +17,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class OffersServiceTest {
 
-
     LoanApplicationRequestDTO loanApplicationRequestDTO = new LoanApplicationRequestDTO();
 
     @BeforeEach
     void setLoanApplicationRequestDTO() {
         loanApplicationRequestDTO.setAmount(BigDecimal.valueOf(2000000));
         loanApplicationRequestDTO.setTerm(24);
-
     }
 
 
@@ -35,7 +33,6 @@ class OffersServiceTest {
         list.add(new LoanOfferDTO(loanApplicationRequestDTO));
         list.add(new LoanOfferDTO(loanApplicationRequestDTO));
         list.add(new LoanOfferDTO(loanApplicationRequestDTO));
-
 
         assertEquals(4, list.size());
         assertNotNull(list.get(0));
@@ -49,7 +46,6 @@ class OffersServiceTest {
         LoanOfferDTO loanOfferDTO = new LoanOfferDTO(loanApplicationRequestDTO);
         OffersService offersService = new OffersService();
         offersService.setRate(BigDecimal.valueOf(20));
-        OffersService.idLoadOfferDTO = 5L;
 
         loanOfferDTO = offersService.withoutAllOffer(loanOfferDTO);
 
@@ -68,7 +64,6 @@ class OffersServiceTest {
         LoanOfferDTO loanOfferDTO = new LoanOfferDTO(loanApplicationRequestDTO);
         OffersService offersService = new OffersService();
         offersService.setRate(BigDecimal.valueOf(20));
-        OffersService.idLoadOfferDTO = 5L;
 
         loanOfferDTO = offersService.withSalaryOffer(loanOfferDTO);
 
@@ -87,7 +82,6 @@ class OffersServiceTest {
         LoanOfferDTO loanOfferDTO = new LoanOfferDTO(loanApplicationRequestDTO);
         OffersService offersService = new OffersService();
         offersService.setRate(BigDecimal.valueOf(20));
-        OffersService.idLoadOfferDTO = 5L;
 
         loanOfferDTO = offersService.withInsuranceOffer(loanOfferDTO);
 
@@ -107,10 +101,8 @@ class OffersServiceTest {
         LoanOfferDTO loanOfferDTO = new LoanOfferDTO(loanApplicationRequestDTO);
         OffersService offersService = new OffersService();
         offersService.setRate(BigDecimal.valueOf(20));
-        OffersService.idLoadOfferDTO = 5L;
 
         loanOfferDTO = offersService.withAllOffer(loanOfferDTO);
-
 
         assertNotNull(loanOfferDTO);
         assertEquals(BigDecimal.valueOf(2000000), loanOfferDTO.getRequestedAmount());
@@ -131,7 +123,6 @@ class OffersServiceTest {
 
         BigDecimal expected = BigDecimal.valueOf(101791.61);
         BigDecimal actual = OffersService.calculateMonthlyPayment(loanOfferDTO);
-
 
         assertEquals(expected, actual);
     }

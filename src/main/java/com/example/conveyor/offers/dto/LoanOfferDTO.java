@@ -1,6 +1,5 @@
 package com.example.conveyor.offers.dto;
 
-import com.example.conveyor.offers.service.OffersService;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,7 +23,7 @@ public class LoanOfferDTO {
 
     public LoanOfferDTO(LoanApplicationRequestDTO loanApplicationRequestDTO) {
 
-        this.applicationId = OffersService.idLoadOfferDTO;
+        this.applicationId = 0L;
         this.requestedAmount = loanApplicationRequestDTO.getAmount();
         this.term = loanApplicationRequestDTO.getTerm();
     }

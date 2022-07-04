@@ -21,13 +21,10 @@ import java.util.List;
 @Component
 public class OffersService {
 
-    public static Long idLoadOfferDTO = 0L;
-
     @Value("${custom.calculating.baseRate}")
     BigDecimal rate;
 
     public List<LoanOfferDTO> makeListLoanOfferDTO(LoanApplicationRequestDTO loanApplicationRequestDTO) {
-        ++OffersService.idLoadOfferDTO;
         List<LoanOfferDTO> list = new ArrayList<>();
         list.add(withoutAllOffer(new LoanOfferDTO(loanApplicationRequestDTO)));
         list.add(withSalaryOffer(new LoanOfferDTO(loanApplicationRequestDTO)));
@@ -40,7 +37,6 @@ public class OffersService {
     public LoanOfferDTO withoutAllOffer(LoanOfferDTO loanOfferDTO) {  //
 
         log.info("Произведено создание экземпляра класса LoanOfferDTO посредством вызова функции withoutAllOffer класса OffersService");
-        loanOfferDTO.setApplicationId(OffersService.idLoadOfferDTO);
         loanOfferDTO.setRate(rate);
         loanOfferDTO.setTotalAmount(loanOfferDTO.getRequestedAmount());
         loanOfferDTO.setMonthlyPayment(calculateMonthlyPayment(loanOfferDTO));
@@ -52,7 +48,6 @@ public class OffersService {
     public LoanOfferDTO withSalaryOffer(LoanOfferDTO loanOfferDTO) {
 
         log.info("Произведено создание экземпляра класса LoanOfferDTO посредством вызова функции withSalaryOffer класса OffersService");
-        loanOfferDTO.setApplicationId(OffersService.idLoadOfferDTO);
         loanOfferDTO.setRate(this.rate);
         loanOfferDTO.setTotalAmount(loanOfferDTO.getRequestedAmount());
         loanOfferDTO.setRate(loanOfferDTO.getRate().subtract(BigDecimal.ONE));
@@ -66,7 +61,6 @@ public class OffersService {
     public LoanOfferDTO withInsuranceOffer(LoanOfferDTO loanOfferDTO) {
 
         log.info("Произведено создание экземпляра класса LoanOfferDTO посредством вызова функции withInsuranceOffer класса OffersService");
-        loanOfferDTO.setApplicationId(OffersService.idLoadOfferDTO);
         loanOfferDTO.setRate(rate);
         loanOfferDTO.setTotalAmount(loanOfferDTO.getRequestedAmount().multiply(BigDecimal.valueOf(1.03)).setScale(2, RoundingMode.HALF_UP));
         loanOfferDTO.setRate(loanOfferDTO.getRate().subtract(BigDecimal.valueOf(3)));
@@ -80,7 +74,6 @@ public class OffersService {
     public LoanOfferDTO withAllOffer(LoanOfferDTO loanOfferDTO) {
 
         log.info("Произведено создание экземпляра класса LoanOfferDTO посредством вызова функции withAllOffer класса OffersService");
-        loanOfferDTO.setApplicationId(OffersService.idLoadOfferDTO);
         loanOfferDTO.setRate(rate);
         loanOfferDTO.setTotalAmount(loanOfferDTO.getRequestedAmount().multiply(BigDecimal.valueOf(1.03)).setScale(2, RoundingMode.HALF_UP));
         loanOfferDTO.setRate(loanOfferDTO.getRate().subtract(BigDecimal.valueOf(4)));
