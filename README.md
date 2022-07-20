@@ -1,3 +1,2 @@
 # conveyor
-![Build Status](https://github.com/Adex93/conveyor/actions/workflows/main.yml/
-badge.svg?branch=master)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Adex93_conveyor&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Adex93_conveyor)
