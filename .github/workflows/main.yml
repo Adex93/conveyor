@@ -17,8 +17,8 @@ jobs:
       - uses: actions/checkout@master
       - uses: codecov/codecov-action@v2
         with:
-          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-          files: ./coverage1.xml,./coverage2.xml # optional
+          token: ${{ secrets.CODECOV_TOKEN }} 
+          files: ./coverage1.xml,./coverage2.xml 
           flags: unittests # optional
       - name: Upload coverage results to Codecov.io
         uses: codecov/codecov-action@v2
